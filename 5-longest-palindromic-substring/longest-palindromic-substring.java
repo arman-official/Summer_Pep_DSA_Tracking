@@ -1,14 +1,15 @@
 class Solution {
-    private boolean isPalindrome(int i, int j, String s)
-    {
-        if (i >= j) return true;
+    private int isPalindrome(int i, int j, String s,int[][] dp)
+    {   
 
+        if (i >= j) return dp[i][j]= 1;
+        if(dp[i][j]!=-1)return dp[i][j];
         if (s.charAt(i) == s.charAt(j))
         {
-            return isPalindrome(i+1, j-1, s);
+            return dp[i][j]=isPalindrome(i+1, j-1, s,dp);
         }
 
-        return false;
+        return dp[i][j]=0;
     }
 
     public String longestPalindrome(String s)
@@ -17,11 +18,14 @@ class Solution {
 
         int maxLen = 0, start = -1;
 
+        int[][] dp=new int[n+1][n+1];
+        for(int[] i:dp)Arrays.fill(i,-1);
+
         for (int i = 0; i < n; i ++)
         {
             for (int j = i; j < n; j ++)
             {
-                if (isPalindrome(i, j, s))
+                if (isPalindrome(i, j, s,dp)==1)
                 {
                     if ((j - i + 1) > maxLen)
                     {
